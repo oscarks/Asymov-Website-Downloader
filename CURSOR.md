@@ -1,0 +1,1 @@
+/home/oscar/Dropbox/work/projetos/Fundamentos de Vibe Design/Website-Downloader/CLAUDE.md
