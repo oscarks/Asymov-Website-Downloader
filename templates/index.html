@@ -3,303 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Downloader</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 520px;
-        }
-        h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-        .input-group {
-            margin-bottom: 1rem;
-        }
-        input[type="url"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        input[type="url"]:focus {
-            border-color: #4a6cf7;
-            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
-        }
-        input[type="url"]:disabled {
-            background: #f5f5f5;
-            color: #999;
-        }
-        button {
-            background: linear-gradient(135deg, #4a6cf7 0%, #6366f1 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            font-size: 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.4);
-        }
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .log-container {
-            margin-top: 1.5rem;
-            background: #1a1a2e;
-            border-radius: 10px;
-            padding: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        .log-container.active {
-            display: block;
-        }
-        .log-entry {
-            color: #a0a0a0;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 0.8rem;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.3s ease;
-        }
-        .log-entry:last-child {
-            border-bottom: none;
-            color: #4ade80;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .success-message {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            text-align: center;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-        .success-message.active {
-            display: block;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .success-message a {
-            color: white;
-            font-weight: 600;
-            text-decoration: underline;
-        }
-    </style>
+    <title>Vibe Design Extractor</title>
+    <link rel="stylesheet" href="/static/css/app.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🌐 Website Downloader</h1>
-        <p class="subtitle">Baixe uma réplica perfeita de qualquer site, incluindo JS renderizado</p>
-        
-        <div class="input-group">
-            <input type="url" id="urlInput" placeholder="https://exemplo.com" required>
+    <!-- TOP BAR -->
+    <header id="topbar">
+        <div class="topbar-left">
+            <span class="logo">Vibe Design Extractor</span>
         </div>
-        
-        <button id="downloadBtn" onclick="startDownload()">
-            <span id="btnText">Baixar Réplica</span>
-            <div class="spinner" id="spinner" style="display: none;"></div>
-        </button>
-        
-        <div class="log-container" id="logContainer"></div>
-        
-        <div class="success-message" id="successMessage">
-            ✅ Download pronto! <a href="#" id="downloadLink">Clique aqui se não iniciou automaticamente</a>
+        <nav class="topbar-actions">
+            <button id="btnDownload" class="primary">Baixar Site</button>
+            <button id="btnExtract" disabled>Extrair Design System</button>
+            <button id="btnConfig">Configurações</button>
+            <button id="btnAssistant" disabled>Assistente IA</button>
+        </nav>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div id="main">
+        <!-- LEFT: FILE EXPLORER -->
+        <aside id="sidebar">
+            <div class="sidebar-header">Workspace</div>
+            <div id="fileExplorer">
+                <p class="empty-state">Nenhum site baixado ainda.<br>Clique em "Baixar Site" para começar.</p>
+            </div>
+        </aside>
+
+        <!-- RIGHT: PREVIEW AREA -->
+        <section id="previewArea">
+            <!-- TAB BAR -->
+            <div id="previewTabs" style="display:none">
+                <button class="tab active" data-tab="original">Site Original</button>
+                <button class="tab" data-tab="editor">Editor</button>
+                <button class="tab" data-tab="design-system">Design System</button>
+                <div class="tab-actions">
+                    <select id="dsVersionSelect" style="display:none"></select>
+                    <button id="btnSplitView">Split View</button>
+                </div>
+            </div>
+
+            <!-- EDITOR TOOLBAR -->
+            <div id="editorToolbar" style="display:none">
+                <div class="editor-toolbar-left">
+                    <button id="btnEditorParent" class="btn-editor btn-nav" disabled title="Selecionar pai (↑)">&#9650; Pai</button>
+                    <button id="btnEditorChild" class="btn-editor btn-nav" disabled title="Selecionar filho (↓)">&#9660; Filho</button>
+                    <div class="editor-toolbar-divider"></div>
+                    <div id="editorBreadcrumb" class="editor-breadcrumb">Clique em um elemento para selecionar</div>
+                </div>
+                <div id="editorColorPanel" class="editor-color-panel" style="display:none">
+                    <div class="color-field">
+                        <label>Texto</label>
+                        <input type="color" id="editorColorText" title="Cor do texto">
+                        <span id="editorColorTextSource" class="color-source"></span>
+                    </div>
+                    <div class="color-field">
+                        <label>Fundo</label>
+                        <input type="color" id="editorColorBg" title="Cor de fundo">
+                        <span id="editorColorBgSource" class="color-source"></span>
+                    </div>
+                </div>
+                <div class="editor-toolbar-actions">
+                    <button id="btnEditorRemove" class="btn-editor danger" disabled>Remover</button>
+                    <button id="btnEditorUndo" class="btn-editor" disabled>Desfazer</button>
+                    <div class="editor-toolbar-divider"></div>
+                    <button id="btnEditorSave" class="btn-editor primary">Salvar</button>
+                    <button id="btnEditorCancel" class="btn-editor">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- SINGLE VIEW -->
+            <div id="singleView" style="display:none">
+                <iframe id="previewFrame" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>
+
+            <!-- EDITOR VIEW -->
+            <div id="editorView" style="display:none">
+                <div id="domTreePanel">
+                    <div class="dom-tree-header">
+                        <span>DOM Tree</span>
+                        <button id="btnToggleDomTree" class="btn-editor btn-collapse" title="Recolher painel">&#9664;</button>
+                    </div>
+                    <div id="domTreeContent"></div>
+                </div>
+                <div id="domTreeResizer"></div>
+                <iframe id="editorFrame" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>
+
+            <!-- SPLIT VIEW -->
+            <div id="splitView" style="display:none">
+                <iframe id="splitOriginal" sandbox="allow-same-origin allow-scripts"></iframe>
+                <div class="split-divider"></div>
+                <iframe id="splitDesignSystem" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="previewEmpty">
+                <p>Selecione um site no painel lateral para visualizar</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL: DOWNLOAD -->
+    <div class="modal-overlay" id="modalDownload">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Baixar Site</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>URL do site</label>
+                <input type="url" id="downloadUrl" placeholder="https://exemplo.com">
+                <button id="btnStartDownload" class="btn-primary">Baixar</button>
+                <div class="log-container" id="downloadLog"></div>
+            </div>
         </div>
     </div>
 
-    <script>
-        let currentSessionId = null;
-        let eventSource = null;
+    <!-- MODAL: EXTRACT -->
+    <div class="modal-overlay" id="modalExtract">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Extrair Design System</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Site: <strong id="extractSiteName"></strong></p>
+                <label>Provedor LLM</label>
+                <select id="extractProvider"></select>
+                <label>Modelo</label>
+                <select id="extractModel"></select>
+                <button id="btnStartExtract" class="btn-primary">Extrair</button>
+                <div class="log-container" id="extractLog"></div>
+            </div>
+        </div>
+    </div>
 
-        function startDownload() {
-            const url = document.getElementById('urlInput').value.trim();
-            if (!url) {
-                alert('Por favor, insira uma URL válida');
-                return;
-            }
+    <!-- MODAL: CONFIG -->
+    <div class="modal-overlay" id="modalConfig">
+        <div class="modal modal-wide">
+            <div class="modal-header">
+                <h2>Configurações</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="configProviders"></div>
+                <div class="config-section">
+                    <label>Provedor padrão</label>
+                    <select id="configDefaultProvider"></select>
+                    <label>Modelo padrão</label>
+                    <select id="configDefaultModel"></select>
+                </div>
+                <button id="btnSaveConfig" class="btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
 
-            // Update UI
-            setLoading(true);
-            clearLogs();
-            hideSuccess();
+    <!-- ASSISTANT CHAT DIALOG -->
+    <div id="assistantDialog" class="assistant-dialog">
+        <div class="assistant-header">
+            <span class="assistant-title">Assistente IA</span>
+            <div class="assistant-header-actions">
+                <select id="assistantTarget" class="assistant-target-select">
+                    <option value="index.html">Site Original</option>
+                </select>
+                <button id="btnAssistantNew" class="assistant-new-btn" title="Nova conversa">+</button>
+                <button id="btnAssistantClose" class="assistant-close">&times;</button>
+            </div>
+        </div>
+        <div id="assistantMessages" class="assistant-messages">
+            <div class="assistant-msg assistant-msg-bot">
+                <div class="assistant-msg-content">
+                    Olá! Posso ajudar a modificar o design desta página.<br>
+                    Exemplos de pedidos:<br>
+                    &bull; Alterar as cores primárias para tons de verde<br>
+                    &bull; Mudar a tipografia para Poppins<br>
+                    &bull; Aumentar o espaçamento entre seções
+                </div>
+            </div>
+        </div>
+        <div class="assistant-input-area">
+            <textarea id="assistantInput" placeholder="Descreva a alteração desejada..." rows="2"></textarea>
+            <button id="btnAssistantSend" class="assistant-send-btn">Enviar</button>
+        </div>
+    </div>
 
-            // Start download
-            fetch('/start-download', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: url })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    addLog('❌ ' + data.error);
-                    setLoading(false);
-                    return;
-                }
-                
-                currentSessionId = data.session_id;
-                connectSSE(currentSessionId);
-            })
-            .catch(error => {
-                addLog('❌ Erro de conexão: ' + error.message);
-                setLoading(false);
-            });
-        }
-
-        function connectSSE(sessionId) {
-            eventSource = new EventSource('/stream/' + sessionId);
-
-            eventSource.onmessage = function(event) {
-                addLog(event.data);
-            };
-
-            eventSource.addEventListener('done', function(event) {
-                eventSource.close();
-                
-                if (event.data === 'complete') {
-                    // Trigger download
-                    triggerDownload(sessionId);
-                    showSuccess(sessionId);
-                } else {
-                    addLog('❌ Download falhou');
-                }
-                
-                // Reset UI after a short delay
-                setTimeout(resetUI, 2000);
-            });
-
-            eventSource.onerror = function() {
-                eventSource.close();
-                setLoading(false);
-            };
-        }
-
-        function triggerDownload(sessionId) {
-            const link = document.createElement('a');
-            link.href = '/download-file/' + sessionId;
-            link.click();
-            
-            // Update manual download link
-            document.getElementById('downloadLink').href = '/download-file/' + sessionId;
-        }
-
-        function showSuccess(sessionId) {
-            document.getElementById('successMessage').classList.add('active');
-            document.getElementById('downloadLink').href = '/download-file/' + sessionId;
-        }
-
-        function hideSuccess() {
-            document.getElementById('successMessage').classList.remove('active');
-        }
-
-        function setLoading(loading) {
-            const btn = document.getElementById('downloadBtn');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('spinner');
-            const input = document.getElementById('urlInput');
-            const logContainer = document.getElementById('logContainer');
-
-            btn.disabled = loading;
-            input.disabled = loading;
-            spinner.style.display = loading ? 'block' : 'none';
-            btnText.textContent = loading ? 'Processando...' : 'Baixar Réplica';
-            
-            if (loading) {
-                logContainer.classList.add('active');
-            }
-        }
-
-        function resetUI() {
-            setLoading(false);
-            document.getElementById('urlInput').value = '';
-            
-            // Hide logs after delay
-            setTimeout(() => {
-                document.getElementById('logContainer').classList.remove('active');
-                hideSuccess();
-                clearLogs();
-            }, 5000);
-        }
-
-        function addLog(message) {
-            const container = document.getElementById('logContainer');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.textContent = message;
-            container.appendChild(entry);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function clearLogs() {
-            document.getElementById('logContainer').innerHTML = '';
-        }
-
-        // Handle Enter key
-        document.getElementById('urlInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) {
-                startDownload();
-            }
-        });
-    </script>
+    <script src="/static/js/app.js"></script>
 </body>
 </html>

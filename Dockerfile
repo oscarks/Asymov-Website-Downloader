@@ -22,8 +22,8 @@ RUN playwright install --with-deps chromium
 # Copy application files
 COPY . .
 
-# Create downloads directory
-RUN mkdir -p downloads
+# Create downloads and workspace directories
+RUN mkdir -p downloads workspace
 
 # Copy and set entrypoint script
 COPY entrypoint.sh /app/entrypoint.sh
